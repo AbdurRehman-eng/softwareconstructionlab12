@@ -17,7 +17,20 @@ package expressivo;
 public interface Expression {
     
     // Datatype definition
-    //   TODO
+    //   Expression = Num(value: BigDecimal)
+    //              + Variable(name: String)
+    //              + Plus(left: Expression, right: Expression)
+    //              + Times(left: Expression, right: Expression)
+    //
+    //   All variants are:
+    //   - immutable: no mutators, all fields are private and final
+    //   - recursive: Plus and Times contain sub‑Expressions
+    //
+    //   Concrete variant classes are defined in:
+    //   - expressivo.Num
+    //   - expressivo.Variable
+    //   - expressivo.Plus
+    //   - expressivo.Times
     
     /**
      * Parse an expression.
@@ -30,8 +43,28 @@ public interface Expression {
     }
     
     /**
-     * @return a parsable representation of this expression, such that
-     * for all e:Expression, e.equals(Expression.parse(e.toString())).
+     * @return a parsable representation of this expression.
+     * 
+     * The result is a String in the concrete expression syntax described
+     * in the problem set handout, with the following additional guarantees:
+     * 
+     * <ul>
+     *   <li>Numbers are written in a canonical decimal form, with no
+     *       unnecessary trailing zeros (e.g. {@code 1}, {@code 1.5}).</li>
+     *   <li>Variables are written as their case-sensitive name.</li>
+     *   <li>Binary {@code +} and {@code *} expressions are fully
+     *       parenthesized with no surrounding whitespace, e.g.
+     *       {@code (x+1)} or {@code ((x+1)*(y+2))}.</li>
+     * </ul>
+     * 
+     * The representation is observationally equivalent to this expression:
+     * for all e:Expression, parsing the result (once {@link #parse} is
+     * implemented) produces an expression structurally equal to e:
+     * 
+     * <pre>
+     *   for all e: Expression,
+     *       e.equals(Expression.parse(e.toString()))
+     * </pre>
      */
     @Override 
     public String toString();
